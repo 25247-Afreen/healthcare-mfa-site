@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Database Viewer{% endblock %}
+{% block content %}
+<h1>📊 Database Viewer (Admin Only)</h1>
+
+<h2>Users ({{ users|length }})</h2>
+<table border="1" cellpadding="8" cellspacing="0" style="width:100%; border-collapse: collapse;">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Password Hash</th>
+    </tr>
+    {% for user in users %}
+    <tr>
+        <td>{{ user.id }}</td>
+        <td>{{ user.full_name }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.role }}</td>
+        <<td>
+            {% if user.password_hash %}
+                {{ user.password_hash[:25] }}...
+            {% else %}
+                No password set
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

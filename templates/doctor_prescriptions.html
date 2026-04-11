@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}Prescriptions - Doctor{% endblock %}
+{% block content %}
+<div class="container mt-5">
+   <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-file-prescription text-warning"></i> Prescriptions</h2>
+    <a href="{{ url_for('doctor_dashboard') }}" class="btn btn-primary">← Dashboard</a>
+</div>
+
+
+    <!-- NEW PRESCRIPTION FORM -->
+    <div class="card mb-5 shadow-sm">
+        <div class="card-header bg-success text-white">
+            <h5><i class="fas fa-plus-circle"></i> Quick Prescribe</h5>
+        </div>
+        <div class="card-body">
+            <form method="POST">
+                <div class="row">
+                    <div class="col-md-3">
+                        <input type="text" name="patient_name" class="form-control" placeholder="Patient Name" required>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="email" name="patient_email" class="form-control" placeholder="Email" required>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" name="medication" class="form-control" placeholder="Medication" required>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" name="dosage" class="form-control" placeholder="Dosage" required>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12">
+                        <textarea name="instructions" class="form-control" rows="2" placeholder="Instructions (optional)"></textarea>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success mt-3">
+                    <i class="fas fa-save"></i> Save Prescription
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- PRESCRIPTION LIST -->
+    {% if prescriptions %}
+    <h4>Recent Prescriptions ({{ prescriptions|length }})</h4>
+    <div class="row">
+        {% for prescription in prescriptions %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm border-left-success">
+                <div class="card-body">
+                    <h6 class="card-title text-success">{{ prescription.patient_name }}</h6>
+                    <p class="fw-bold">{{ prescription.medication }}</p>
+                    <p class="small text-muted mb-2">Dosage: {{ prescription.dosage }}</p>
+                    {% if prescription.instructions %}
+                    <p class="small">{{ prescription.instructions }}</p>
+                    {% endif %}
+                    <p class="text-muted small mb-0">{{ prescription.date_prescribed.strftime('%Y-%m-%d %H:%M') }}</p>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <small class="text-muted">Dr. {{ current_user.full_name }}</small>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <i class="fas fa-file-prescription fa-3x text-muted mb-3"></i>
+        <h4>No prescriptions yet</h4>
+        <p class="text-muted">Create your first prescription above!</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

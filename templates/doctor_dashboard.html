@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Doctor Dashboard - MediSecure{% endblock %}
+{% block content %}
+
+<style>
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin: 3rem 0; padding: 0 1rem; max-width: 1200px; margin-left: auto; margin-right: auto; }
+    .stat-card { background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); text-align: center; display: flex; align-items: center; gap: 1.5rem; transition: all 0.3s ease; border: 1px solid #f1f5f9; }
+    .stat-card:hover { transform: translateY(-5px); box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
+    .stat-card i { font-size: 3rem; width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .stat-card.blue i { background: linear-gradient(135deg, #3b82f6, #1e40af); color: white; }
+    .stat-card.green i { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+    .stat-card.orange i { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; }
+    .stat-card div h3 { color: #1f2937; font-size: 2.5rem; margin: 0 0 0.5rem 0; font-weight: 700; }
+    .stat-card div p { color: #6b7280; margin: 0; font-size: 1.1rem; }
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin: 3rem 0; padding: 0 1rem; max-width: 1200px; margin-left: auto; margin-right: auto; }
+    .card { background: white; padding: 2.5rem 2rem; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); text-align: center; transition: all 0.3s ease; border: 1px solid #f1f5f9; }
+    .card:hover { transform: translateY(-8px); box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
+    .card i { display: block; margin-bottom: 1.5rem; }
+    .card h3 { color: #1f2937; font-size: 1.5rem; margin-bottom: 1rem; font-weight: 700; }
+    .card p { color: #6b7280; margin-bottom: 2rem; line-height: 1.6; }
+    .btn { padding: 12px 24px; border-radius: 12px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease; border: none; cursor: pointer; font-size: 1rem; }
+    .btn-success { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+    .btn-primary { background: linear-gradient(135deg, #3b82f6, #1e40af); color: white; }
+    .btn-warning { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+    @media (max-width: 768px) { .stats-grid, .card-grid { grid-template-columns: 1fr; padding: 0 1rem; } }
+</style>
+
+<!-- HEADER -->
+<div style="text-align: center; margin-bottom: 40px;">
+    <h1 style="color: #080c13; font-size: 40px;"><i class="fas fa-user-md"></i> Dr. {{ current_user.full_name }}</h1>
+    <p style="color: #080f1a; font-size: 20px;">{{ current_user.specialty or 'General Physician' }} Specialist</p>
+</div>
+
+
+<div class="stats-grid">
+    <div class="stat-card blue"><i class="fas fa-users"></i><div><h3>{{ appointments|length if appointments else 0 }}</h3><p>Today's Patients</p></div></div>
+    <div class="stat-card green"><i class="fas fa-calendar-check"></i><div><h3>{{ appointments|length if appointments else 0 }}</h3><p>Today's Appointments</p></div></div>
+    <div class="stat-card orange"><i class="fas fa-file-prescription"></i><div><h3>8</h3><p>Pending Prescriptions</p></div></div>
+</div>
+
+<!-- FEATURE CARDS -->
+<div class="card-grid">
+    <div class="card">
+        <i class="fas fa-calendar-check" style="color: #48bb78; font-size: 55px;"></i>
+        <h3>Today's Appointments</h3>
+        <p>Manage your patient schedule</p>
+        <a href="{{ url_for('doctor_appointments') }}" class="btn btn-success">View Schedule</a>
+    </div>
+    <div class="card">
+        <i class="fas fa-plus-circle" style="color: #4299e1; font-size: 55px;"></i>
+        <h3>New Patient</h3>
+        <p>Add new patient records</p>
+        <a href="#" class="btn btn-primary" onclick="alert('Coming Soon!')">Add Patient</a>
+    </div>
+    <div class="card">
+        <i class="fas fa-file-prescription" style="color: #f6ad55; font-size: 55px;"></i>
+        <h3>Prescriptions</h3>
+        <p>Create & review orders</p>
+        <a href="{{ url_for('doctor_prescriptions') }}" class="btn btn-warning">View Prescriptions</a>
+    </div>
+    <div class="card">
+        <i class="fas fa-file-medical" style="color: #ed8936; font-size: 55px;"></i>
+        <h3>Patient Records</h3>
+        <p>View complete medical history</p>
+        <a href="{{ url_for('doctor_records') }}" class="btn btn-primary">View Records</a>
+    </div>
+</div>
+
+{% endblock %}

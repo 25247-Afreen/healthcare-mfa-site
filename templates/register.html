@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Register - MediSecure{% endblock %}
+{% block content %}
+<div style="max-width: 500px; margin: 4rem auto; padding: 2rem;">
+    <div style="text-align: center; margin-bottom: 2rem;">
+        <i class="fas fa-user-plus" style="font-size: 4rem; color: #10b981;"></i>
+        <h1 style="font-size: 2.5rem; color: #1f2937;">Create Account</h1>
+        <p style="color: #6b7280;">Join MediSecure today</p>
+    </div>
+
+    <div style="background: white; padding: 2.5rem; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.1);">
+        <!-- PATIENT REGISTER -->
+        <form method="POST" action="{{ url_for('register_patient') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <h3 style="color: #10b981; margin-bottom: 1.5rem;">
+                <i class="fas fa-user-injured"></i> Patient Registration
+            </h3>
+            <div style="margin-bottom: 1.5rem;">
+                <input type="text" name="full_name" placeholder="Full Name" required
+                       style="width: 100%; padding: 1rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 1rem;">
+            </div>
+            <div style="margin-bottom: 1.5rem;">
+                <input type="email" name="email" placeholder="Email" required
+                       style="width: 100%; padding: 1rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 1rem;">
+            </div>
+            <div style="margin-bottom: 1.5rem;">
+                <input type="password" name="password" placeholder="Password (8+ chars)" required
+                       style="width: 100%; padding: 1rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 1rem;">
+            </div>
+            <button type="submit" class="btn" style="width: 100%; background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 1rem; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">
+                <i class="fas fa-user-plus"></i> Register as Patient
+            </button>
+        </form>
+
+        <div style="text-align: center; margin: 2rem 0; padding: 1rem; background: #f8fafc; border-radius: 12px;">
+            <p style="margin: 0; color: #64748b;">OR</p>
+        </div>
+
+        <!-- DOCTOR REGISTER -->
+        <form method="POST" action="{{ url_for('register_doctor') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <h3 style="color: #3b82f6; margin-bottom: 1.5rem;">
+                <i class="fas fa-user-md"></i> Doctor Registration
+            </h3>
+            <div style="margin-bottom: 1.5rem;">
+                <input type="text" name="full_name" placeholder="Full Name" required
+                       style="width: 100%; padding: 1rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 1rem;">
+            </div>
+            <div style="margin-bottom: 1.5rem;">
+                <input type="email" name="email" placeholder="Email" required
+                       style="width: 100%; padding: 1rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 1rem;">
+            </div>
+            <div style="margin-bottom: 1.5rem;">
+                <input type="text" name="specialty" placeholder="Specialty (Cardiology, etc.)" required
+                       style="width: 100%; padding: 1rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 1rem;">
+            </div>
+            <div style="margin-bottom: 1.5rem;">
+                <input type="password" name="password" placeholder="Password (8+ chars)" required
+                       style="width: 100%; padding: 1rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 1rem;">
+            </div>
+            <button type="submit" class="btn" style="width: 100%; background: linear-gradient(135deg, #3b82f6, #1e40af); color: white; padding: 1rem; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">
+                <i class="fas fa-stethoscope"></i> Register as Doctor
+            </button>
+        </form>
+
+        <div style="text-align: center; margin-top: 2rem;">
+            <p>Already have an account? <a href="{{ url_for('login') }}" style="color: #3b82f6; font-weight: 600;">Login here</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

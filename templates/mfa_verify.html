@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Enter MFA Code</h2>
+<p>Enter 6-digit code from your authenticator app:</p>
+<form method="POST">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <input type="text" name="token" placeholder="123456" required maxlength="6">
+    <button type="submit">Verify</button>
+</form>
+{% endblock %}

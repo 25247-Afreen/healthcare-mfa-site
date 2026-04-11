@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Setup MFA</h2>
+<p>1. Install Google Authenticator</p>
+<p>2. Scan this QR code:</p>
+<img src="data:image/png;base64,{{ qr_b64 }}" alt="Scan me" style="max-width: 250px;">
+
+<h3>3. Enter 6-digit code:</h3>
+<form method="POST">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <input type="text" name="token" placeholder="123456" required maxlength="6">
+    <button type="submit">Enable MFA</button>
+</form>
+{% endblock %}

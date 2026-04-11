@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}MediSecure - Secure Healthcare{% endblock %}
+{% block content %}
+<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 100px 20px; text-align: center; border-radius: 0 0 40px 40px; margin: -20px -20px 40px -20px;">
+    <h1 style="font-size: 48px; margin-bottom: 20px;">
+        <i class="fas fa-heartbeat" style="font-size: 60px;"></i><br>
+        Welcome to MediSecure
+    </h1>
+    <p style="font-size: 24px; margin-bottom: 40px; opacity: 0.9;">
+        Secure Healthcare Platform for Doctors & Patients
+    </p>
+    <a href="{{ url_for('register') }}" class="btn btn-primary" style="font-size: 20px; padding: 18px 40px;">
+        <i class="fas fa-user-plus"></i> Get Started
+    </a>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; text-align: center;">
+    <div class="card">
+        <i class="fas fa-user-md" style="font-size: 60px; color: #f6ad55;"></i>
+        <h3>Doctor Portal</h3>
+        <p>Manage patients, appointments, prescriptions, and medical records securely.</p>
+    </div>
+    <div class="card">
+        <i class="fas fa-heartbeat" style="font-size: 60px; color: #48bb78;"></i>
+        <h3>Patient Portal</h3>
+        <p>Book appointments, view medical history, and emergency access.</p>
+    </div>
+    <div class="card">
+        <i class="fas fa-shield-alt" style="font-size: 60px; color: #4299e1;"></i>
+        <h3>Enterprise Security</h3>
+        <p>Password encryption, MFA, role-based access control, SQLite database.</p>
+    </div>
+</div>
+{% endblock %}

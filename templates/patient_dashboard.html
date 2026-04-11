@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Patient Dashboard - MediSecure{% endblock %}
+{% block content %}
+
+<style>
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin: 3rem 0; padding: 0 1rem; max-width: 1200px; margin-left: auto; margin-right: auto; }
+    .card { background: white; padding: 2.5rem 2rem; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); text-align: center; transition: all 0.3s ease; border: 1px solid #f1f5f9; }
+    .card:hover { transform: translateY(-8px); box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
+    .card-icon { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(16,185,129,0.05)); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 2rem; }
+    .card h3 { color: #1f2937; font-size: 1.5rem; margin-bottom: 1rem; font-weight: 700; }
+    .card p { color: #6b7280; margin-bottom: 2rem; line-height: 1.6; }
+    .btn { padding: 12px 24px; border-radius: 12px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease; border: none; cursor: pointer; }
+    .btn-success { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+    .btn-primary { background: linear-gradient(135deg, #3b82f6, #1e40af); color: white; }
+    .btn-warning { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+    .emergency-btn { background: linear-gradient(135deg, #ef4444, #dc2626) !important; font-size: 1.2rem; padding: 15px 30px; margin-top: 2rem; }
+    @media (max-width: 768px) { .card-grid { grid-template-columns: 1fr; padding: 0 1rem; } }
+</style>
+
+<!-- HEADER -->
+<div style="text-align: center; margin-bottom: 3rem;">
+    <h1 style="color: #1f2937; font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem;">
+        <i class="fas fa-heartbeat" style="color: #10b981;"></i> Welcome {{ current_user.full_name }}
+    </h1>
+    <p style="color: #101520; font-size: 1.1rem;">Your health journey starts here</p>
+</div>
+
+<!-- EMERGENCY BUTTON -->
+<div style="text-align: center; margin-bottom: 3rem;">
+    <a href="tel:108" class="btn btn-danger emergency-btn">
+        <i class="fas fa-exclamation-triangle"></i> EMERGENCY - Call 108
+    </a>
+</div>
+
+<!-- FEATURE CARDS -->
+<div class="card-grid">
+    <div class="card">
+        <i class="fas fa-calendar-check" style="color: #48bb78; font-size: 55px;"></i>
+        <h3>My Appointments</h3>
+        <p>View your scheduled visits</p>
+        <a href="{{ url_for('patient_dashboard') }}#appointments" class="btn btn-success">View Appointments</a>
+    </div>
+    <div class="card">
+        <i class="fas fa-calendar-plus" style="color: #4299e1; font-size: 55px;"></i>
+        <h3>Book Appointment</h3>
+        <p>Schedule new doctor visit</p>
+        <a href="{{ url_for('book_appointment') }}" class="btn btn-primary">Book Now</a>
+    </div>
+    <div class="card">
+        <i class="fas fa-file-medical" style="color: #f6ad55; font-size: 55px;"></i>
+        <h3>Medical Records</h3>
+        <p>View your health history</p>
+        <a href="#" class="btn btn-warning" onclick="alert('Coming Soon!')">View Records</a>
+    </div>
+</div>
+
+{% endblock %}

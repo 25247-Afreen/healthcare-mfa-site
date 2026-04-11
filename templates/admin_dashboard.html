@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<div style="padding: 2rem;">
+    <h1>⚙️ Admin Dashboard</h1>
+    <p>Total Users: {{ users_count }}</p>
+    <p>Total Appointments: {{ appts_count }}</p>
+    <a href="{{ url_for('db_viewer') }}" class="btn btn-danger">📊 View Database</a>
+</div>
+{% endblock %}
