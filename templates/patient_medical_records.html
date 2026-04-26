@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Medical Records{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">My Medical Records</h2>
+
+    <h4>Prescriptions</h4>
+    {% if prescriptions %}
+        <div class="row">
+            {% for p in prescriptions %}
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ p.medication }}</h5>
+                        <p><strong>Dosage:</strong> {{ p.dosage }}</p>
+                        <p><strong>Instructions:</strong> {{ p.instructions or 'No instructions' }}</p>
+                        <p><strong>Date:</strong> {{ p.date_prescribed.strftime('%d-%m-%Y %I:%M %p') }}</p>
+                        <p><strong>Doctor:</strong> Dr. {{ p.doctor.full_name }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">No prescriptions found.</div>
+    {% endif %}
+
+    <h4 class="mt-5">Appointment History</h4>
+    {% if appointments %}
+        <div class="row">
+            {% for a in appointments %}
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <p><strong>Doctor:</strong> Dr. {{ a.doctor.full_name }}</p>
+                        <p><strong>Date & Time:</strong> {{ a.date_time.strftime('%d-%m-%Y %I:%M %p') }}</p>
+                        <p><strong>Status:</strong> {{ a.status }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">No appointment history found.</div>
+    {% endif %}
+</div>
+{% endblock %}

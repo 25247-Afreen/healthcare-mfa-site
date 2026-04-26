@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}My Appointments{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">My Appointments</h2>
+
+    {% if appointments %}
+        <div class="row">
+            {% for appointment in appointments %}
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ appointment.patient_name }}</h5>
+                        <p><strong>Doctor:</strong> Dr. {{ appointment.doctor.full_name }}</p>
+                        <p><strong>Date & Time:</strong> {{ appointment.date_time.strftime('%d-%m-%Y %I:%M %p') }}</p>
+                        <p><strong>Status:</strong> {{ appointment.status }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">No appointments booked yet.</div>
+    {% endif %}
+</div>
+{% endblock %}

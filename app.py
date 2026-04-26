@@ -12,6 +12,7 @@ import qrcode
 import io
 import base64
 from datetime import datetime
+from sqlalchemy import func
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'change-this-to-a-random-secret-in-production'
@@ -99,6 +100,12 @@ class Prescription(db.Model):
     instructions = db.Column(db.Text)
     date_prescribed = db.Column(db.DateTime, default=datetime.utcnow)
 
+class LoginActivity(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_email = db.Column(db.String(120), nullable=False)
+    role = db.Column(db.String(20), nullable=False)
+    login_time = db.Column(db.DateTime, default=datetime.utcnow)
+
 @login_manager.user_loader
 
 
@@ -180,6 +187,39 @@ def book_appointment():
     doctors = User.query.filter_by(role='doctor').all()
     return render_template('book_appointment.html', doctors=doctors)
 
+@app.route('/patient/appointments')
+@login_required
+def patient_appointments():
+    if current_user.role != 'patient':
+        flash('Patient access only!', 'danger')
+        return redirect(url_for('home'))
+
+    appointments = Appointment.query.filter_by(
+        patient_email=current_user.email
+    ).order_by(Appointment.date_time.desc()).all()
+
+    return render_template('patient_appointments.html', appointments=appointments)
+
+@app.route('/patient/medical-records')
+@login_required
+def patient_medical_records():
+    if current_user.role != 'patient':
+        flash('Patient access only!', 'danger')
+        return redirect(url_for('home'))
+
+    prescriptions = Prescription.query.filter_by(
+        patient_email=current_user.email
+    ).order_by(Prescription.date_prescribed.desc()).all()
+
+    appointments = Appointment.query.filter_by(
+        patient_email=current_user.email
+    ).order_by(Appointment.date_time.desc()).all()
+
+    return render_template(
+        'patient_medical_records.html',
+        prescriptions=prescriptions,
+        appointments=appointments
+    )
 
 @app.route('/doctor/dashboard')
 @login_required
@@ -196,9 +236,25 @@ def admin_dashboard():
     if current_user.role != 'admin':
         flash('Admin access only!', 'danger')
         return redirect(url_for('home'))
-    users_count = User.query.count()
+
+    users = User.query.all()
     appts_count = Appointment.query.count()
-    return render_template('admin_dashboard.html', users_count=users_count, appts_count=appts_count)
+
+    login_logs = LoginActivity.query.order_by(LoginActivity.login_time.desc()).all()
+
+    login_counts = db.session.query(
+        LoginActivity.user_email,
+        func.count(LoginActivity.id).label('total_logins'),
+        func.max(LoginActivity.login_time).label('last_login')
+    ).group_by(LoginActivity.user_email).all()
+
+    return render_template(
+        'admin_dashboard.html',
+        users=users,
+        appts_count=appts_count,
+        login_logs=login_logs,
+        login_counts=login_counts
+    )
 
 @app.route('/dashboard')
 @login_required
@@ -394,6 +450,13 @@ def login():
             return redirect(url_for('mfa_verify'))
 
         login_user(user)
+        activity = LoginActivity(
+            user_email=user.email,
+            role=user.role,
+            login_time=datetime.now()
+        )
+        db.session.add(activity)
+        db.session.commit()
         flash('Logged in successfully.', 'success')
         return redirect(url_for('home'))
 
@@ -450,6 +513,12 @@ def mfa_verify():
         if user.verify_totp(token):
             session.pop('mfa_user_id', None)
             login_user(user)
+            activity = LoginActivity(
+                user_email=user.email,
+                role=user.role
+            )
+            db.session.add(activity)
+            db.session.commit()
             flash('✅ MFA verified! Welcome back.', 'success')
             return redirect(url_for('home'))
         else:

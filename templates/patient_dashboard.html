@@ -28,9 +28,9 @@
 
 <!-- EMERGENCY BUTTON -->
 <div style="text-align: center; margin-bottom: 3rem;">
-    <a href="tel:108" class="btn btn-danger emergency-btn">
-        <i class="fas fa-exclamation-triangle"></i> EMERGENCY - Call 108
-    </a>
+    <button type="button" class="btn btn-danger" onclick="alert('Demo only: no real emergency call is being placed.')">
+        EMERGENCY CALL - 108
+    </button>
 </div>
 
 <!-- FEATURE CARDS -->
@@ -39,7 +39,7 @@
         <i class="fas fa-calendar-check" style="color: #48bb78; font-size: 55px;"></i>
         <h3>My Appointments</h3>
         <p>View your scheduled visits</p>
-        <a href="{{ url_for('patient_dashboard') }}#appointments" class="btn btn-success">View Appointments</a>
+        <a href="{{ url_for('patient_appointments') }}" class="btn btn-primary"> My Appointments </a>
     </div>
     <div class="card">
         <i class="fas fa-calendar-plus" style="color: #4299e1; font-size: 55px;"></i>
@@ -51,7 +51,7 @@
         <i class="fas fa-file-medical" style="color: #f6ad55; font-size: 55px;"></i>
         <h3>Medical Records</h3>
         <p>View your health history</p>
-        <a href="#" class="btn btn-warning" onclick="alert('Coming Soon!')">View Records</a>
+        <a href="{{ url_for('patient_medical_records') }}" class="btn btn-primary"> Medical Records </a>
     </div>
 </div>
 
