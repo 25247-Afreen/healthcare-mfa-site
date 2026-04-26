@@ -32,12 +32,6 @@
     <p style="color: #080f1a; font-size: 20px;">{{ current_user.specialty or 'General Physician' }} Specialist</p>
 </div>
 
-
-<div class="stats-grid">
-    <div class="stat-card blue"><i class="fas fa-users"></i><div><h3>{{ appointments|length if appointments else 0 }}</h3><p>Today's Patients</p></div></div>
-    <div class="stat-card green"><i class="fas fa-calendar-check"></i><div><h3>{{ appointments|length if appointments else 0 }}</h3><p>Today's Appointments</p></div></div>
-</div>
-
 <!-- FEATURE CARDS -->
 <div class="card-grid">
     <div class="card">
